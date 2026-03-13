@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mockup — Landing /guide v5</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #060707;
+    color: #EDEEEF;
+    font-family: 'Geist', Georgia, sans-serif;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .label-bar {
+    text-align: center;
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: rgba(237,238,239,0.4);
+    text-transform: uppercase;
+    margin: -20px -20px 20px -20px;
+  }
+
+  .page {
+    background: #080909;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.045) 1px, transparent 1px);
+    background-size: 28px 28px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+    overflow: hidden;
+    position: relative;
+  }
+  .page::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 280px;
+    background: radial-gradient(ellipse at 50% -20%, rgba(255,255,255,0.055) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+    z-index: 2;
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .logo-mark {
+    width: 26px; height: 26px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .logo-mark img {
+    width: 22px; height: 22px;
+    object-fit: contain;
+    filter: brightness(0.9);
+  }
+  .logo-label { color: #EDEEEF; }
+  .logo-by { color: rgba(237,238,239,0.3); font-size: 12px; font-weight: 400; }
+
+  .nav-right { display: flex; align-items: center; gap: 8px; }
+  .btn-ghost {
+    padding: 7px 14px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(237,238,239,0.45);
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .btn-primary {
+    padding: 7px 16px;
+    background: #EDEEEF;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #080909;
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  /* ── COLLAB BAR ── */
+  .collab-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 10px 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+    z-index: 2;
+  }
+  .collab-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    color: rgba(237,238,239,0.35);
+    font-weight: 500;
+  }
+  .collab-claude-icon {
+    width: 20px; height: 20px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .collab-claude-icon img { width: 18px; height: 18px; object-fit: contain; }
+  .collab-buildrs-icon {
+    width: 20px; height: 20px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 700;
+    color: rgba(237,238,239,0.5);
+  }
+  .collab-x { color: rgba(237,238,239,0.14); font-size: 13px; }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 72px 40px 64px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 4px 12px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 99px;
+    font-size: 11px;
+    color: rgba(237,238,239,0.45);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .badge-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(74,222,128,0.8); }
+
+  .hero-title {
+    font-family: 'Geist', sans-serif;
+    font-size: 62px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.05em;
+    color: #EDEEEF;
+    max-width: 640px;
+    margin: 0 auto 22px;
+  }
+  .hero-title .dim { color: rgba(237,238,239,0.35); }
+
+  .hero-sub {
+    font-size: 15px;
+    color: rgba(237,238,239,0.4);
+    max-width: 400px;
+    margin: 0 auto 36px;
+    line-height: 1.65;
+  }
+  .hero-ctas {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .btn-primary-lg {
+    padding: 11px 24px;
+    background: #EDEEEF;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #080909;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .btn-ghost-lg {
+    padding: 11px 20px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 8px;
+    font-size: 13px;
+    color: rgba(237,238,239,0.4);
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .hero-meta {
+    font-size: 12px;
+    color: rgba(237,238,239,0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(255,255,255,0.14); }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07) 30%, rgba(255,255,255,0.07) 70%, transparent);
+    margin: 0 40px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ── CHAPTERS GRID ── */
+  .chapters {
+    padding: 56px 40px 72px;
+    position: relative;
+    z-index: 2;
+    max-width: 920px;
+    margin: 0 auto;
+  }
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: rgba(237,238,239,0.22);
+    text-align: center;
+    margin-bottom: 52px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 44px 52px;
+  }
+  .grid-item { display: flex; flex-direction: column; gap: 8px; }
+  .grid-icon {
+    width: 28px; height: 28px;
+    color: rgba(237,238,239,0.35);
+    margin-bottom: 4px;
+  }
+  .grid-icon svg { width: 100%; height: 100%; stroke: currentColor; stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .grid-num { font-size: 10px; color: rgba(237,238,239,0.18); letter-spacing: 0.05em; font-weight: 500; }
+  .grid-title { font-size: 14px; font-weight: 600; color: #EDEEEF; line-height: 1.3; }
+  .grid-desc { font-size: 13px; color: rgba(237,238,239,0.35); line-height: 1.55; }
+
+  /* Bonus item — highlighted */
+  .grid-item.bonus .grid-icon { color: rgba(251,191,36,0.65); }
+  .grid-item.bonus .grid-num { color: rgba(251,191,36,0.4); }
+  .grid-item.bonus .grid-title { color: rgba(251,191,36,0.9); }
+  .grid-item.bonus .grid-desc { color: rgba(237,238,239,0.45); }
+  .bonus-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 8px;
+    background: rgba(251,191,36,0.08);
+    border: 1px solid rgba(251,191,36,0.2);
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(251,191,36,0.7);
+    margin-bottom: 4px;
+    width: fit-content;
+  }
+
+  /* ── BOTTOM CTA — compact, same height as nav ── */
+  .bottom-cta {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 16px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+  }
+  .cta-left {
+    font-size: 13px;
+    color: rgba(237,238,239,0.4);
+    font-weight: 400;
+  }
+  .cta-left strong { color: #EDEEEF; font-weight: 500; }
+
+  /* Screen note */
+  .screen-note {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    font-size: 12px;
+    color: rgba(237,238,239,0.5);
+    line-height: 1.5;
+  }
+  .screen-note strong { color: #EDEEEF; }
+</style>
+</head>
+<body>
+
+<div class="label-bar">Mockup · Écran 1 / 5 — Landing /guide · v5</div>
+
+<div class="page">
+
+  <!-- NAV -->
+  <div class="nav">
+    <div class="nav-logo">
+      <div class="logo-mark">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Claude_AI_symbol.svg" alt="Claude" />
+      </div>
+      <span class="logo-label">Guide Claude</span>
+      <span class="logo-by">· by Buildrs</span>
+    </div>
+    <div class="nav-right">
+      <div class="btn-ghost">Se connecter</div>
+      <div class="btn-primary">Accéder →</div>
+    </div>
+  </div>
+
+  <!-- COLLAB BAR -->
+  <div class="collab-bar">
+    <div class="collab-item">
+      <div class="collab-claude-icon">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Claude_AI_symbol.svg" alt="Claude" />
+      </div>
+      Claude
+    </div>
+    <span class="collab-x">×</span>
+    <div class="collab-item">
+      <div class="collab-buildrs-icon">B</div>
+      Buildrs
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">
+      <div class="badge-dot"></div>
+      Guide gratuit · 12 chapitres
+    </div>
+    <h1 class="hero-title">
+      Maîtrise Claude<br>
+      <span class="dim">&</span> le VibeCoding
+    </h1>
+    <p class="hero-sub">
+      Comprends Claude, installe Claude Code et construis ton premier Micro-SaaS — sans savoir coder.
+    </p>
+    <div class="hero-ctas">
+      <div class="btn-primary-lg">Accéder gratuitement →</div>
+      <div class="btn-ghost-lg">Voir les chapitres</div>
+    </div>
+    <div class="hero-meta">
+      <span>Par Alfred Orsini</span>
+      <div class="meta-dot"></div>
+      <span>12 chapitres</span>
+      <div class="meta-dot"></div>
+      <span>Mars 2026</span>
+      <div class="meta-dot"></div>
+      <span>100% gratuit</span>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- CHAPTERS GRID -->
+  <div class="chapters">
+    <p class="section-eyebrow">Ce que tu vas apprendre</p>
+    <div class="grid">
+
+      <div class="grid-item">
+        <div class="grid-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="grid-num">01</div>
+        <div class="grid-title">Introduction</div>
+        <div class="grid-desc">Pourquoi Claude en 2026, VibeCoding, les chiffres qui prouvent la méthode.</div>
+      </div>
+
+      <div class="grid-item">
+        <div class="grid-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/></svg></div>
+        <div class="grid-num">02</div>
+        <div class="grid-title">Claude AI vs Claude Code</div>
+        <div class="grid-desc">Les deux produits, leurs rôles, comment ils s'articulent.</div>
+      </div>
+
+      <div class="grid-item">
+        <div class="grid-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+        <div class="grid-num">03</div>
+        <div class="grid-title">Les modèles</div>
+        <div class="grid-desc">Haiku, Sonnet, Opus — lequel choisir, quand, et pourquoi.</div>
+      </div>
+
+      <div class="grid-item">
+        <div class="grid-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
+        <div class="grid-num">04</div>
+        <div class="grid-title">Configuration & abonnements</div>
+        <div class="grid-desc">Plans, paramètres clés, extension navigateur — le setup optimal.</div>
+      </div>
+
+      <div class="grid-item">
+        <div class="grid-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <div class="grid-num">05</div>
+        <div class="grid-title">Prompts & Projects</div>
+        <div class="grid-desc">Structurer ses instructions, activer la mémoire persistante.</div>
+      </div>
+
+      <div class="grid-item">
+        <div class="grid-icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+        <div class="grid-num">06</div>
+        <div class="grid-title">Claude Code — Installation</div>
+        <div class="grid-desc">Setup local, CLI, intégration IDE — opérationnel en 20 min.</div>
+      </div>
+
+      <div class="grid-item">
+        <div class="grid-icon"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <div class="grid-num">07</div>
+        <div class="grid-title">Preview & Workflow cloud</div>
+        <div class="grid-desc">La feature révolutionnaire, GitHub, Vercel — builder sans friction.</div>
+      </div>
+
+      <div class="grid-item">
+        <div class="grid-icon"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+        <div class="grid-num">08</div>
+        <div class="grid-title">Skills & Superpowers</div>
+        <div class="grid-desc">Créer, configurer et les meilleurs skills disponibles.</div>
+      </div>
+
+      <div class="grid-item">
+        <div class="grid-icon"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+        <div class="grid-num">09</div>
+        <div class="grid-title">CLAUDE.md & Mémoire</div>
+        <div class="grid-desc">Faire en sorte que Claude se souvienne de tout, partout.</div>
+      </div>
+
+      <div class="grid-item">
+        <div class="grid-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+        <div class="grid-num">10</div>
+        <div class="grid-title">MCP — connecter Claude au monde</div>
+        <div class="grid-desc">Brancher Claude à Notion, GitHub, Figma, Gmail — les meilleurs MCP.</div>
+      </div>
+
+      <div class="grid-item">
+        <div class="grid-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <div class="grid-num">11</div>
+        <div class="grid-title">Tes premiers workflows IA</div>
+        <div class="grid-desc">Automatiser, déléguer, orchestrer — tes 3 premiers workflows concrets.</div>
+      </div>
+
+      <!-- BONUS — chapitre 12 -->
+      <div class="grid-item bonus">
+        <div class="grid-icon"><svg viewBox="0 0 24 24"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></div>
+        <div class="bonus-tag">Bonus</div>
+        <div class="grid-title">Ressources & Templates</div>
+        <div class="grid-desc">Mon CLAUDE.md template, mes prompts favoris et la checklist de lancement MVP.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BOTTOM CTA — compact, same as nav -->
+  <div class="bottom-cta">
+    <div class="cta-left">
+      <strong>Guide Claude · by Buildrs</strong> — 100% gratuit, 12 chapitres
+    </div>
+    <div class="btn-primary">Accéder gratuitement →</div>
+  </div>
+
+</div>
+
+<div class="screen-note">
+  <strong>v5 :</strong> Logo Claude SVG réel (Wikimedia). CTA bas compact (même hauteur que la nav). Chapitre 12 devient "Bonus — Ressources & Templates" avec badge doré — template CLAUDE.md, prompts favoris, checklist MVP. Dis-moi si le bonus convient ou si tu veux un autre contenu.
+</div>
+
+</body>
+</html>

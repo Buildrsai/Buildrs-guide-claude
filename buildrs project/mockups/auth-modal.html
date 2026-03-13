@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mockup — Auth Modal</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #060707;
+    color: #EDEEEF;
+    font-family: 'Geist', Georgia, sans-serif;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .label-bar {
+    text-align: center;
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: rgba(237,238,239,0.4);
+    text-transform: uppercase;
+    margin: -20px -20px 20px -20px;
+  }
+
+  /* Page blurred behind modal */
+  .backdrop {
+    background: #080909;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 28px 28px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+    overflow: hidden;
+    position: relative;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Dimmed background content (faked landing) */
+  .backdrop-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    opacity: 0.08;
+    user-select: none;
+    padding: 40px;
+    text-align: center;
+  }
+  .backdrop-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 52px;
+    font-style: italic;
+    color: #EDEEEF;
+  }
+  .backdrop-sub { font-size: 14px; color: #EDEEEF; }
+
+  /* Overlay dim */
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(8,9,9,0.7);
+    backdrop-filter: blur(6px);
+    z-index: 1;
+  }
+
+  /* Modal */
+  .modal {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 380px;
+    background: #0C0D0E;
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 14px;
+    padding: 32px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.7);
+  }
+
+  .modal-header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .modal-logo {
+    width: 40px; height: 40px;
+    margin: 0 auto 16px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .modal-logo img { width: 36px; height: 36px; object-fit: contain; }
+  .modal-title {
+    font-family: 'Geist', sans-serif;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 400;
+    color: #EDEEEF;
+    margin-bottom: 6px;
+    letter-spacing: -0.04em;
+  }
+  .modal-sub {
+    font-size: 13px;
+    color: rgba(237,238,239,0.4);
+    line-height: 1.5;
+  }
+
+  /* Google button */
+  .btn-google {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 11px 16px;
+    background: #EDEEEF;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #080909;
+    font-family: inherit;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  .google-icon {
+    width: 17px; height: 17px;
+    flex-shrink: 0;
+  }
+
+  /* Divider with OR */
+  .or-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .or-line { flex: 1; height: 1px; background: rgba(255,255,255,0.07); }
+  .or-text { font-size: 11px; color: rgba(237,238,239,0.25); letter-spacing: 0.06em; }
+
+  /* Email input */
+  .input-group { margin-bottom: 10px; }
+  .input-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(237,238,239,0.35);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .input-field {
+    width: 100%;
+    background: #111214;
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: rgba(237,238,239,0.5);
+    font-family: inherit;
+    outline: none;
+  }
+  .input-field::placeholder { color: rgba(237,238,239,0.2); }
+
+  .btn-email {
+    width: 100%;
+    padding: 11px 16px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(237,238,239,0.6);
+    font-family: inherit;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+
+  /* Footer */
+  .modal-footer {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 16px;
+    text-align: center;
+  }
+  .modal-footer p {
+    font-size: 11px;
+    color: rgba(237,238,239,0.22);
+    line-height: 1.55;
+  }
+  .modal-footer a { color: rgba(237,238,239,0.4); }
+
+  /* Screen note */
+  .screen-note {
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    font-size: 12px;
+    color: rgba(237,238,239,0.5);
+    line-height: 1.5;
+  }
+  .screen-note strong { color: #EDEEEF; }
+</style>
+</head>
+<body>
+
+<div class="label-bar">Mockup · Écran 2 / 5 — Modale Auth</div>
+
+<div class="backdrop">
+
+  <!-- Blurred landing behind -->
+  <div class="backdrop-content">
+    <div style="font-size:13px;color:#EDEEEF">Guide Claude · by Buildrs</div>
+    <div class="backdrop-title">Maîtrise Claude<br>& le VibeCoding</div>
+    <div class="backdrop-sub">Comprends Claude, installe Claude Code et construis ton premier Micro-SaaS</div>
+  </div>
+
+  <!-- Dim overlay -->
+  <div class="overlay"></div>
+
+  <!-- Modal -->
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-logo">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Claude_AI_symbol.svg" alt="Claude" />
+      </div>
+      <h2 class="modal-title">Accède au guide</h2>
+      <p class="modal-sub">Gratuit · 12 chapitres · Résultats immédiats</p>
+    </div>
+
+    <!-- Google OAuth — PRIMARY -->
+    <button class="btn-google">
+      <svg class="google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      Continuer avec Google
+    </button>
+
+    <!-- OR divider -->
+    <div class="or-divider">
+      <div class="or-line"></div>
+      <span class="or-text">ou</span>
+      <div class="or-line"></div>
+    </div>
+
+    <!-- Email fallback -->
+    <div class="input-group">
+      <label class="input-label">Email</label>
+      <div class="input-field">ton@email.com</div>
+    </div>
+    <button class="btn-email">Continuer avec l'email →</button>
+
+    <!-- Footer -->
+    <div class="modal-footer">
+      <p>En continuant, tu acceptes les <a href="#">CGU</a> et la <a href="#">politique de confidentialité</a>.<br>Ton email ne sera jamais partagé.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="screen-note">
+  <strong>Écran 2/5 — Auth :</strong> Modale centrée sur landing blurrée. Priorité Google OAuth (bouton blanc primary). Fallback email en secondaire. Logo Claude en header. Footer légal discret. — Convient ? On passe à l'onboarding (3 questions).
+</div>
+
+</body>
+</html>
