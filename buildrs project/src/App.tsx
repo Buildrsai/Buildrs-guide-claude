@@ -6,6 +6,10 @@ import {
   Badge,
   Divider,
 } from '@/components/ui'
+import AuthPage from './pages/AuthPage'
+import OnboardingPage from './pages/OnboardingPage'
+import DashboardPage from './pages/DashboardPage'
+import CtaFinalPage from './pages/CtaFinalPage'
 
 function DesignSystemPage() {
   return (
@@ -113,6 +117,10 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<DesignSystemPage />} />
+        <Route path="/auth" element={<AuthPage />} />
+        <Route path="/onboarding" element={<OnboardingPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/cta" element={<CtaFinalPage />} />
       </Routes>
     </BrowserRouter>
   )
