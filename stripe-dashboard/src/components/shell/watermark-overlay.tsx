@@ -12,7 +12,7 @@ export function WatermarkOverlay() {
     <div
       data-testid="watermark"
       aria-hidden
-      className="pointer-events-none fixed inset-0 z-9999 select-none overflow-hidden"
+      className="pointer-events-none fixed inset-0 z-[9999] select-none overflow-hidden"
     >
       <div className="absolute -inset-[50%] flex rotate-[-24deg] flex-col justify-between opacity-[0.05]">
         {rows.map((_, i) => (
