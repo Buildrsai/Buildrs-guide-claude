@@ -10,19 +10,24 @@ export const SheetTrigger = DialogPrimitive.Trigger;
 export const SheetClose = DialogPrimitive.Close;
 export const SheetTitle = DialogPrimitive.Title;
 
-/** Right-side detail drawer, Stripe-style. */
+/** Side drawer, Stripe-style. Right side for details, left for mobile nav. */
 export function SheetContent({
   className,
   children,
+  side = "right",
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Content>) {
+}: React.ComponentProps<typeof DialogPrimitive.Content> & {
+  side?: "left" | "right";
+}) {
   return (
     <DialogPrimitive.Portal>
       <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-secondary/20 data-[state=open]:animate-in data-[state=open]:fade-in-0" />
       <DialogPrimitive.Content
         className={cn(
-          "fixed inset-y-0 right-0 z-50 flex w-full max-w-[560px] flex-col bg-white shadow-drawer outline-none",
-          "data-[state=open]:animate-in data-[state=open]:slide-in-from-right data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right duration-200",
+          "fixed inset-y-0 z-50 flex w-full flex-col bg-white outline-none duration-200",
+          side === "right"
+            ? "right-0 max-w-[560px] shadow-drawer data-[state=open]:animate-in data-[state=open]:slide-in-from-right data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right"
+            : "left-0 max-w-[300px] border-r border-border data-[state=open]:animate-in data-[state=open]:slide-in-from-left data-[state=closed]:animate-out data-[state=closed]:slide-out-to-left",
           className,
         )}
         {...props}

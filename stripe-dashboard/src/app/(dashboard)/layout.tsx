@@ -15,7 +15,7 @@ export default function DashboardLayout({
           <Topbar />
           <main
             data-capture-root
-            className="flex-1 overflow-y-auto bg-white px-8 py-6"
+            className="flex-1 overflow-y-auto bg-white px-4 py-5 sm:px-6 sm:py-6 lg:px-8"
           >
             <div className="mx-auto w-full max-w-[1200px]">{children}</div>
           </main>

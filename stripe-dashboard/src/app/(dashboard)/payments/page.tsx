@@ -8,7 +8,11 @@ import { formatCurrency, formatDate } from "@/lib/format";
 import { PageHeader } from "@/components/shared/page-header";
 import { PeriodPicker } from "@/components/shared/period-picker";
 import { DataTable, type Column } from "@/components/shared/data-table";
-import { FilterTabs, TableSearch } from "@/components/shared/filter-bar";
+import {
+  CountFilterBoxes,
+  FilterChips,
+  TableSearch,
+} from "@/components/shared/filter-bar";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { PaymentDrawer } from "@/components/drawers/payment-drawer";
 import type { Payment } from "@/lib/schemas";
@@ -147,7 +151,7 @@ export default function PaymentsPage() {
           </>
         }
       />
-      <FilterTabs
+      <CountFilterBoxes
         tabs={[
           { id: "all", label: "All", count: counts.all },
           { id: "succeeded", label: "Succeeded", count: counts.succeeded },
@@ -158,6 +162,18 @@ export default function PaymentsPage() {
         active={tab}
         onChange={(id) => setTab(id as Tab)}
       />
+      <div className="mt-3">
+        <FilterChips
+          labels={[
+            "Date and time",
+            "Amount",
+            "Currency",
+            "Status",
+            "Payment method",
+            "More filters",
+          ]}
+        />
+      </div>
       <div className="mt-3">
         <DataTable columns={columns} rows={rows} onRowClick={setSelected} />
       </div>

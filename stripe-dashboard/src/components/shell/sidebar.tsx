@@ -59,16 +59,19 @@ function NavItem({
   href,
   label,
   icon: Icon,
+  onNavigate,
 }: {
   href: string;
   label: string;
   icon: React.ElementType;
+  onNavigate?: () => void;
 }) {
   const pathname = usePathname();
   const active = pathname.startsWith(href);
   return (
     <Link
       href={href}
+      onClick={onNavigate}
       className={cn(
         "flex h-8 items-center gap-2.5 rounded-md px-2 text-[14px] transition-colors duration-100",
         active
@@ -85,12 +88,10 @@ function NavItem({
   );
 }
 
-export function Sidebar() {
+/** Shared between the desktop rail and the mobile drawer. */
+export function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   return (
-    <aside
-      data-testid="sidebar"
-      className="flex h-screen w-[228px] shrink-0 flex-col border-r border-border bg-white"
-    >
+    <>
       <div className="px-3 pb-2 pt-3">
         <AccountSwitcher />
       </div>
@@ -104,7 +105,7 @@ export function Sidebar() {
             )}
             <div className="flex flex-col gap-0.5">
               {section.items.map((item) => (
-                <NavItem key={item.href} {...item} />
+                <NavItem key={item.href} {...item} onNavigate={onNavigate} />
               ))}
             </div>
           </div>
@@ -113,10 +114,21 @@ export function Sidebar() {
       <div className="border-t border-border px-3 py-2">
         <div className="flex flex-col gap-0.5">
           {BOTTOM_ITEMS.map((item) => (
-            <NavItem key={item.href} {...item} />
+            <NavItem key={item.href} {...item} onNavigate={onNavigate} />
           ))}
         </div>
       </div>
+    </>
+  );
+}
+
+export function Sidebar() {
+  return (
+    <aside
+      data-testid="sidebar"
+      className="hidden h-screen w-[228px] shrink-0 flex-col border-r border-border bg-white lg:flex"
+    >
+      <SidebarContent />
     </aside>
   );
 }

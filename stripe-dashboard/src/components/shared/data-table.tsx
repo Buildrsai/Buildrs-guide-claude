@@ -74,7 +74,7 @@ export function DataTable<T extends { id: string }>({
                   <td
                     key={c.key}
                     className={cn(
-                      "h-10 px-2 py-1.5 align-middle text-secondary first:pl-1 last:pr-1",
+                      "h-10 whitespace-nowrap px-2 py-1.5 align-middle text-secondary first:pl-1 last:pr-1",
                       c.align === "right" && "text-right tabular",
                       c.className,
                     )}

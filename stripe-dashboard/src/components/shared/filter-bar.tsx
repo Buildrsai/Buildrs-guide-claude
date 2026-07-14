@@ -1,7 +1,72 @@
 "use client";
 
-import { Search } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+/**
+ * Boxed status filters with big counts — the pattern used on the real
+ * Stripe Transactions page ("All 71 | Succeeded 53 | …").
+ */
+export function CountFilterBoxes({
+  tabs,
+  active,
+  onChange,
+}: {
+  tabs: { id: string; label: string; count: number }[];
+  active: string;
+  onChange: (id: string) => void;
+}) {
+  return (
+    <div className="flex gap-2 overflow-x-auto pb-1">
+      {tabs.map((t) => (
+        <button
+          key={t.id}
+          onClick={() => onChange(t.id)}
+          className={cn(
+            "min-w-28 shrink-0 cursor-pointer rounded-lg border px-3.5 py-2.5 text-left transition-colors",
+            active === t.id
+              ? "border-primary ring-1 ring-primary"
+              : "border-border hover:border-primary-70",
+          )}
+        >
+          <span
+            className={cn(
+              "label-md block",
+              active === t.id ? "text-primary" : "text-secondary",
+            )}
+          >
+            {t.label}
+          </span>
+          <span
+            className={cn(
+              "block text-[16px] font-semibold tabular",
+              active === t.id ? "text-primary" : "text-secondary",
+            )}
+          >
+            {t.count.toLocaleString("en-US")}
+          </span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/** Decorative dashed filter chips row (Date and time, Amount, …). */
+export function FilterChips({ labels }: { labels: string[] }) {
+  return (
+    <div className="flex flex-wrap items-center gap-1.5">
+      {labels.map((label) => (
+        <button
+          key={label}
+          className="inline-flex cursor-pointer items-center gap-1 rounded-full border border-dashed border-border px-2.5 py-1 text-[12.5px] text-muted transition-colors hover:border-primary-70 hover:text-secondary"
+        >
+          <Plus className="h-3 w-3" />
+          {label}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 /** Status filter tabs + free-text search, Stripe list-page style. */
 export function FilterTabs({

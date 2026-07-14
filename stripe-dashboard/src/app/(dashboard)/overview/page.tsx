@@ -8,9 +8,11 @@ import {
   useBalances,
   useDailySeries,
   useMrr,
+  useRange,
   useTotals,
 } from "@/lib/store/use-derived";
 import { compare } from "@/lib/selectors/series";
+import { inRange } from "@/lib/selectors/range";
 import { formatCurrency, formatDate, formatNumber } from "@/lib/format";
 import { PageHeader } from "@/components/shared/page-header";
 import { PeriodPicker } from "@/components/shared/period-picker";
@@ -30,7 +32,33 @@ export default function OverviewPage() {
   const mrr = useMrr();
   const balances = useBalances();
   const grossSeries = useDailySeries("gross");
+  const range = useRange();
   const [selected, setSelected] = useState<Payment | null>(null);
+
+  // status breakdown with amounts, like the real Overview "Payments" card
+  const breakdown = useMemo(() => {
+    if (!dataset || !range) return null;
+    const refundedIds = new Set(dataset.refunds.map((r) => r.paymentId));
+    const disputedIds = new Set(dataset.disputes.map((d) => d.paymentId));
+    let succeeded = 0;
+    let refunded = 0;
+    let disputed = 0;
+    let failed = 0;
+    for (const p of dataset.payments) {
+      if (!inRange(p.createdAt, range)) continue;
+      if (p.status === "failed") {
+        failed += p.amount;
+      } else if (disputedIds.has(p.id)) {
+        disputed += p.amount;
+      } else if (refundedIds.has(p.id)) {
+        refunded += p.amount;
+      } else {
+        succeeded += p.amount;
+      }
+    }
+    const total = succeeded + refunded + disputed + failed;
+    return { succeeded, refunded, disputed, failed, total };
+  }, [dataset, range]);
 
   const byMethod = useMemo(() => {
     if (!dataset) return [];
@@ -138,6 +166,61 @@ export default function OverviewPage() {
       </div>
 
       <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
+        {breakdown && breakdown.total > 0 && (
+          <div
+            data-export-target="payments-breakdown"
+            className="rounded-lg border border-border bg-white p-4 shadow-card"
+          >
+            <h3 className="label-md text-secondary">Payments</h3>
+            <div className="mt-3 flex h-2.5 w-full overflow-hidden rounded-full bg-muted-tint">
+              {(
+                [
+                  ["succeeded", "#533afd"],
+                  ["refunded", "#8a7cff"],
+                  ["disputed", "#ff9f1c"],
+                  ["failed", "#d92d20"],
+                ] as const
+              ).map(([key, color]) => (
+                <span
+                  key={key}
+                  style={{
+                    width: `${(breakdown[key] / breakdown.total) * 100}%`,
+                    background: color,
+                  }}
+                />
+              ))}
+            </div>
+            <ul className="mt-3 flex flex-col gap-2">
+              {(
+                [
+                  ["Succeeded", "succeeded", "#533afd"],
+                  ["Refunded", "refunded", "#8a7cff"],
+                  ["Disputed", "disputed", "#ff9f1c"],
+                  ["Failed", "failed", "#d92d20"],
+                ] as const
+              ).map(([label, key, color]) => (
+                <li key={key} className="flex items-center justify-between">
+                  <span className="flex items-center gap-2 text-[13.5px] text-secondary">
+                    <span
+                      className="h-2 w-2 rounded-full"
+                      style={{ background: color }}
+                    />
+                    {label}
+                  </span>
+                  <span className="caption text-muted tabular">
+                    {formatCurrency(breakdown[key], currency)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <Link
+              href="/payments"
+              className="label-md mt-3 inline-flex items-center gap-1 text-primary hover:text-primary-60"
+            >
+              View payments <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+        )}
         <ChartCard title="Volume by payment method" exportId="volume-by-method">
           <DonutChart
             data={byMethod}
@@ -180,7 +263,7 @@ export default function OverviewPage() {
           </div>
         </div>
 
-        {topPlans.length > 0 ? (
+        {topPlans.length > 0 && (
           <div
             data-export-target="top-plans"
             className="rounded-lg border border-border bg-white p-4 shadow-card"
@@ -203,29 +286,6 @@ export default function OverviewPage() {
             >
               View subscriptions <ArrowRight className="h-3.5 w-3.5" />
             </Link>
-          </div>
-        ) : (
-          <div
-            data-export-target="failed-payments"
-            className="rounded-lg border border-border bg-white p-4 shadow-card"
-          >
-            <h3 className="label-md text-secondary">Failed payments</h3>
-            <div className="mt-3">
-              <div className="headline-md text-secondary tabular">
-                {formatNumber(totals.current.failedCount)}
-              </div>
-              <p className="caption mt-1 text-muted">
-                {(
-                  (totals.current.failedCount /
-                    Math.max(
-                      1,
-                      totals.current.failedCount + totals.current.succeededCount,
-                    )) *
-                  100
-                ).toFixed(1)}
-                % of attempted payments failed in this period.
-              </p>
-            </div>
           </div>
         )}
       </div>
