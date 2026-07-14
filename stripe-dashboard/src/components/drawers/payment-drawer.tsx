@@ -11,13 +11,22 @@ import { StatusBadge } from "@/components/shared/status-badge";
 import { DetailDrawer, DrawerSection, KV } from "./detail-drawer";
 
 export function PaymentDrawer({
-  payment,
+  payment: paymentProp,
   onOpenChange,
 }: {
   payment: Payment | null;
   onOpenChange: (open: boolean) => void;
 }) {
   const dataset = useAppStore((s) => s.dataset);
+  // always show the live object from the recomputed dataset, not the
+  // snapshot captured when the row was clicked
+  const payment = useMemo(
+    () =>
+      paymentProp && dataset
+        ? (dataset.payments.find((p) => p.id === paymentProp.id) ?? paymentProp)
+        : paymentProp,
+    [dataset, paymentProp],
+  );
   const account = useActiveAccount();
   const applyEdit = useAppStore((s) => s.applyEdit);
   const [editing, setEditing] = useState(false);

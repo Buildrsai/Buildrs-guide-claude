@@ -38,13 +38,20 @@ function EditFooter({
 /* ------------------------------------------------------------------ */
 
 export function CustomerDrawer({
-  customer,
+  customer: customerProp,
   onOpenChange,
 }: {
   customer: Customer | null;
   onOpenChange: (open: boolean) => void;
 }) {
   const dataset = useAppStore((s) => s.dataset);
+  const customer = useMemo(
+    () =>
+      customerProp && dataset
+        ? (dataset.customers.find((x) => x.id === customerProp.id) ?? customerProp)
+        : customerProp,
+    [dataset, customerProp],
+  );
   const applyEdit = useAppStore((s) => s.applyEdit);
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", country: "" });
@@ -176,13 +183,20 @@ export function CustomerDrawer({
 /* ------------------------------------------------------------------ */
 
 export function SubscriptionDrawer({
-  subscription,
+  subscription: subscriptionProp,
   onOpenChange,
 }: {
   subscription: Subscription | null;
   onOpenChange: (open: boolean) => void;
 }) {
   const dataset = useAppStore((s) => s.dataset);
+  const subscription = useMemo(
+    () =>
+      subscriptionProp && dataset
+        ? (dataset.subscriptions.find((x) => x.id === subscriptionProp.id) ?? subscriptionProp)
+        : subscriptionProp,
+    [dataset, subscriptionProp],
+  );
   const applyEdit = useAppStore((s) => s.applyEdit);
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState({ planId: "", status: "", canceledAt: "" });
@@ -313,13 +327,20 @@ export function SubscriptionDrawer({
 /* ------------------------------------------------------------------ */
 
 export function RefundDrawer({
-  refund,
+  refund: refundProp,
   onOpenChange,
 }: {
   refund: Refund | null;
   onOpenChange: (open: boolean) => void;
 }) {
   const dataset = useAppStore((s) => s.dataset);
+  const refund = useMemo(
+    () =>
+      refundProp && dataset
+        ? (dataset.refunds.find((x) => x.id === refundProp.id) ?? refundProp)
+        : refundProp,
+    [dataset, refundProp],
+  );
   const applyEdit = useAppStore((s) => s.applyEdit);
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState({ amount: "", createdAt: "", reason: "" });
@@ -421,13 +442,20 @@ export function RefundDrawer({
 /* ------------------------------------------------------------------ */
 
 export function DisputeDrawer({
-  dispute,
+  dispute: disputeProp,
   onOpenChange,
 }: {
   dispute: Dispute | null;
   onOpenChange: (open: boolean) => void;
 }) {
   const dataset = useAppStore((s) => s.dataset);
+  const dispute = useMemo(
+    () =>
+      disputeProp && dataset
+        ? (dataset.disputes.find((x) => x.id === disputeProp.id) ?? disputeProp)
+        : disputeProp,
+    [dataset, disputeProp],
+  );
   const applyEdit = useAppStore((s) => s.applyEdit);
   const [editing, setEditing] = useState(false);
   const [status, setStatus] = useState("");
@@ -499,13 +527,20 @@ export function DisputeDrawer({
 /* ------------------------------------------------------------------ */
 
 export function PayoutDrawer({
-  payout,
+  payout: payoutProp,
   onOpenChange,
 }: {
   payout: Payout | null;
   onOpenChange: (open: boolean) => void;
 }) {
   const dataset = useAppStore((s) => s.dataset);
+  const payout = useMemo(
+    () =>
+      payoutProp && dataset
+        ? (dataset.payouts.find((x) => x.id === payoutProp.id) ?? payoutProp)
+        : payoutProp,
+    [dataset, payoutProp],
+  );
   const applyEdit = useAppStore((s) => s.applyEdit);
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState({ status: "", arrivalDate: "" });
@@ -614,13 +649,20 @@ export function PayoutDrawer({
 /* ------------------------------------------------------------------ */
 
 export function PlanDrawer({
-  plan,
+  plan: planProp,
   onOpenChange,
 }: {
   plan: Plan | null;
   onOpenChange: (open: boolean) => void;
 }) {
   const dataset = useAppStore((s) => s.dataset);
+  const plan = useMemo(
+    () =>
+      planProp && dataset
+        ? (dataset.plans.find((x) => x.id === planProp.id) ?? planProp)
+        : planProp,
+    [dataset, planProp],
+  );
   const account = useActiveAccount();
   const applyEdit = useAppStore((s) => s.applyEdit);
   const [editing, setEditing] = useState(false);
